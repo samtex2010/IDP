@@ -1,0 +1,68 @@
+---
+- name: install rpm pkgs
+  yum:
+    name: '*'
+    state: latest
+    update_cache: yes
+
+- name: Install a list of packages
+  yum:
+    name:
+      - docker
+      - vim
+      - curl
+      - wget
+      - jq
+      - libselinux-python
+      - gcc
+      - make
+      - python3-devel
+      - java-1.8.0-openjdk-headless
+    state: present
+  notify:
+    - start docker
+
+- block:
+  - systemd:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: install docker-compose via pip3
+    pip:
+      name: 
+        - docker-compose
+    vars:
+      ansible_python_interpreter: /usr/bin/python3
+    tags:
+      - docker_compose_upgrade
+  when: (ansible_facts['distribution'] == "Amazon" and  ansible_facts['architecture'] == "aarch64")
+
+- block:
+  - systemd:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: get latest release name for docker-compose
+    local_action: uri url=https://api.github.com/repos/docker/compose/releases/latest return_content=yes
+    register: compose_release
+    become: false
+    tags:
+      - docker_compose_upgrade
+
+  - name: Docker-compose version
+    debug:
+      msg={{ compose_release|json_query('json.name') }}
+    tags:
+      - docker_compose_upgrade
+
+  - name: get latest docker-compose releases
+    get_url:
+      url: https://github.com/docker/compose/releases/download/{{ compose_release|json_query('json.name') }}/docker-compose-{{ ansible_system }}-{{ ansible_machine }}
+      dest: /usr/local/bin/docker-compose
+      force: yes
+      mode: 0755
+    tags:
+      - docker_compose_upgrade
+  when: (ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7")

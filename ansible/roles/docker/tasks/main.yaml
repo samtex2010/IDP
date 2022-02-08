@@ -1,0 +1,24 @@
+---
+- file:
+    path: "/root/{{ item }}"
+    state: directory
+  loop:
+    - "jenkins"
+    - "flask"
+
+- copy:
+    dest: "{{ item.dest }}"
+    src: "{{ item.src }}"
+  loop:
+    - {"src": "docker-compose-flask.yml", "dest": "/root/flask/docker-compose.yml"}
+    - {"src": "docker-compose-jenkins.yml", "dest": "/root/jenkins/docker-compose.yml"}
+    - {"src": "Dockerfile-flask", "dest": "/root/flask/Dockerfile"}
+    - {"src": "Dockerfile-jenkins", "dest": "/root/flask/Dockerfile"}
+    - {"src": "{{ playbook_dir }}/../app", "dest": "/root/flask"}
+
+- shell: "/usr/local/bin/docker-compose -p {{ item.name }} -f docker-compose.yml up -d"
+  args:
+    chdir: "{{ item.path }}"
+  loop:
+    - {"name": "flask", "path": "/root/flask"}
+    - {"name": "jenkins", "path": "/root/jenkins"}
