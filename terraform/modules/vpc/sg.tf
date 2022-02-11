@@ -35,7 +35,7 @@ resource "aws_security_group" "sg" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
+      Project = local.project_idp
       Name    = "${each.key}-SG"
     }
   )

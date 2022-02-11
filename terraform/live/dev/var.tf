@@ -1,10 +1,10 @@
-variable "project" {
+variable "project_idp" {
   default = "IDP"
 }
 
 variable "tags" {
   default = {
-    "OWNER" = "km@mkoryakin.com"
+    "OWNER" = "samtex2010@gmail.com"
     "ENV"   = "DEV"
   }
 }

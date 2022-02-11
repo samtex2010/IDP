@@ -1,11 +1,11 @@
-variable "project" {
-  description = "Project tag."
+variable "project_idp" {
+  description = "Project IDP tag."
 }
 
 data "aws_caller_identity" "current" {}
 
 locals {
-  project    = var.project
+  project_idp    = var.project_idp
   account_id = data.aws_caller_identity.current.account_id
 }
 

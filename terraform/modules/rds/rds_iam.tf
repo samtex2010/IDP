@@ -14,13 +14,13 @@ data "aws_iam_policy_document" "enhanced_monitoring" {
 }
 
 resource "aws_iam_role" "enhanced_monitoring" {
-  name               = "${local.project}-RDS-IAM-ROLE"
+  name               = "${local.project_idp}-RDS-IAM-ROLE"
   assume_role_policy = data.aws_iam_policy_document.enhanced_monitoring.json
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-RDS-IAM-ROLE"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-RDS-IAM-ROLE"
     }
   )
 }

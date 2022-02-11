@@ -10,7 +10,7 @@ data "aws_subnet" "private" {
   id = local.private_subnet_ids.0
 }
 
-variable "project" {}
+variable "project_idp" {}
 
 variable "aws_tags" {
   type    = map(any)
@@ -92,7 +92,7 @@ data "aws_caller_identity" "current" {}
 locals {
   vpc_id                = data.aws_subnet.private.vpc_id
   private_subnet_ids    = var.private_subnet_ids
-  project               = var.project
+  project_idp               = var.project_idp
   storage_size          = var.storage_size
   instance_type         = var.instance_type
   engine_version        = var.engine_version

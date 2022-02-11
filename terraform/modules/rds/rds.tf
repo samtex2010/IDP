@@ -3,13 +3,13 @@ data "aws_kms_alias" "rds" {
 }
 
 resource "aws_db_subnet_group" "rds-private-subnet" {
-  name       = "${lower(local.project)}_db_sng"
+  name       = "${lower(local.project_idp)}_db_sng"
   subnet_ids = local.private_subnet_ids
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-DB-SNG"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-DB-SNG"
     }
   )
 
@@ -21,7 +21,7 @@ resource "aws_db_instance" "pg" {
   engine                      = "postgres"
   engine_version              = local.engine_version
   instance_class              = local.instance_type
-  identifier                  = "${lower(local.project)}-rds"
+  identifier                  = "${lower(local.project_idp)}-rds"
   snapshot_identifier         = var.snapshot_identifier
   username                    = local.db_user
   password                    = var.db_password
@@ -48,8 +48,8 @@ resource "aws_db_instance" "pg" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-RDS"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-RDS"
     }
   )
 

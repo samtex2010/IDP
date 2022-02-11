@@ -1,13 +1,13 @@
 resource "aws_security_group" "rds-sg" {
   count = var.sg_enable ? 1 : 0
 
-  name   = "${local.project}-RDS-SG"
+  name   = "${local.project_idp}-RDS-SG"
   vpc_id = local.vpc_id
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-rds-sg"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-rds-sg"
     }
   )
 

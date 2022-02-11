@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket  = "km-tf-states"
+    bucket  = "mk-tf-states"
     key     = "idp"
-    region  = "us-east-1"
-    profile = "default"
+    region  = "us-west-1"
+    profile = "samtex"
   }
 }

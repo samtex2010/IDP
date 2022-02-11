@@ -7,19 +7,19 @@ resource "aws_key_pair" "devops-key" {
 
 module "iam" {
   source   = "../../modules/iam"
-  project  = var.project
+  project_idp  = var.project_idp
   aws_tags = var.tags
 }
 
 module "vpc" {
   source   = "../../modules/vpc"
-  project  = var.project
+  project_idp  = var.project_idp
   aws_tags = var.tags
 }
 
 module "ec2" {
   source               = "../../modules/ec2"
-  project              = var.project
+  project              = var.project_idp
   aws_tags             = var.tags
   iam_instance_profile = module.iam.iam_instance_profile
   instance_name_sufix  = "EC2"
@@ -43,11 +43,11 @@ resource "local_file" "hosts_file" {
     "./hosts.tftpl",
     {
       user    = "ec2-user"
-      project = var.project
+      project = var.project_idp
       server  = module.ec2.ec2_public_ip
     }
   )
-  filename = "../../../ansible/${var.project}_hosts"
+  filename = "../../../ansible/${var.project_idp}_hosts"
 }
 
 resource "random_password" "rds_password" {
@@ -64,7 +64,7 @@ module "rds" {
     module.vpc.subnets["PRIVATE"],
     module.vpc.subnets["PRIVATE2"]
   ]
-  project              = var.project
+  project_idp              = var.project_idp
   aws_tags             = var.tags
   db_password          = random_password.rds_password.result
   sg_enable            = false

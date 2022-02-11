@@ -6,8 +6,8 @@ resource "aws_vpc" "main" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-VPC"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-VPC"
   })
 }
 
@@ -16,8 +16,8 @@ resource "aws_internet_gateway" "gw" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-VPC-IGW"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-VPC-IGW"
   })
 }
 
@@ -26,8 +26,8 @@ resource "aws_eip" "nat_eip" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-NAT-EIP"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-NAT-EIP"
     }
   )
 }
@@ -38,7 +38,7 @@ resource "aws_nat_gateway" "nat" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-NAT-GW"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-NAT-GW"
   })
 }

@@ -9,7 +9,7 @@ resource "aws_subnet" "subnet" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-${each.key}-SN"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-${each.key}-SN"
   })
 }

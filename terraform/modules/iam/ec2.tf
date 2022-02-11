@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2-instance-role" {
-  name = join("-", [local.project, "compute-instance-role"])
+  name = join("-", [local.project_idp, "compute-instance-role"])
 
   assume_role_policy = <<POLICY
 {
@@ -23,7 +23,7 @@ POLICY
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
+      Project = local.project_idp
   })
 
 }
@@ -33,7 +33,7 @@ resource "aws_iam_policy" "ec2-instance-role-policy" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
+      Project = local.project_idp
   })
 
   policy = <<POLICY
@@ -177,7 +177,7 @@ resource "aws_iam_role_policy_attachment" "ec2-instance-role-attach" {
 }
 
 resource "aws_iam_instance_profile" "instance-profile" {
-  name = join("-", [local.project, "ec2-instance-iam-profile"])
+  name = join("-", [local.project_idp, "ec2-instance-iam-profile"])
   role = aws_iam_role.ec2-instance-role.name
 
   lifecycle {
@@ -186,7 +186,7 @@ resource "aws_iam_instance_profile" "instance-profile" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
+      Project = local.project_idp
   })
 
 }

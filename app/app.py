@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-aws_region = os.getenv("AWS_REGION", "us-east-1")
+aws_region = os.getenv("AWS_REGION", "us-west-1")
 
 ec2 = boto3.client('ec2', region_name=aws_region)
 

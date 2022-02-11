@@ -5,8 +5,8 @@ resource "aws_route_table" "route_table" {
 
   tags = merge(
     var.aws_tags, {
-      Project = local.project
-      Name    = "${local.project}-${each.key}-RT"
+      Project = local.project_idp
+      Name    = "${local.project_idp}-${each.key}-RT"
   })
 }
 

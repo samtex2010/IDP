@@ -2,8 +2,8 @@ variable "vpc_network" {
   default = "10.10.0.0/16"
 }
 
-variable "project" {
-  description = "Project tag."
+variable "project_idp" {
+  description = "Project IDP tag."
 }
 
 variable "aws_tags" {
@@ -15,17 +15,17 @@ variable "subnets" {
   default = {
     "PUBLIC" = {
       cidr = "10.10.10.0/24"
-      az   = "us-east-1a"
+      az   = "us-west-1a"
       nat  = false
     }
     "PRIVATE" = {
       cidr = "10.10.20.0/24"
-      az   = "us-east-1b"
+      az   = "us-west-1c"
       nat  = true
     }
     "PRIVATE2" = {
       cidr = "10.10.30.0/24"
-      az   = "us-east-1a"
+      az   = "us-west-1a"
       nat  = true
     }
   }
@@ -84,7 +84,7 @@ data "aws_availability_zones" "azs" {
 }
 
 locals {
-  project      = var.project
+  project_idp      = var.project_idp
   az_primary   = var.subnets_az == "" ? data.aws_availability_zones.azs.names[0] : var.subnets_az
   az_secondary = data.aws_availability_zones.azs.names[index(data.aws_availability_zones.azs.names, var.subnets_az == "" ? data.aws_availability_zones.azs.names[0] : var.subnets_az) + 1]
   public_subnets = {
